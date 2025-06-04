@@ -6,9 +6,21 @@
 </head>
 <body>
   <h1> Bienvenido a CANbiate Radio</h1>
-  <audio autoplay loop controls>
-    <source src="prueba.mp3" type="audio/mpeg">
+  <audio id="player" autoplay loop>
     Tu navegador no soporta audio.
   </audio>
+
+  <script>
+    const canciones = [
+      "Canserbero - Estupida Historia de Amor (Music Video) ft. Apache.mp3",
+      "Canserbero, NicoJP - Buenas Noches [Give Me 5].mp3",
+      "DeLaVidaComoPelicula.mp3"
+    ];
+
+    const aleatoria = canciones[Math.floor(Math.random() * canciones.length)];
+    document.getElementById("player").innerHTML = `
+      <source src="${aleatoria}" type="audio/mpeg">
+    `;
+  </script>
 </body>
 </html>
