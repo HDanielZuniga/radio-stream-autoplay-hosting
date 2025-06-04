@@ -2,14 +2,47 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Descarga Aleatoria</title>
-  <script>
-    const archivos = ["archivo1.pls", "archivo2.pls", "archivo3.pls"];
-    const elegido = archivos[Math.floor(Math.random() * archivos.length)];
-    window.location.href = elegido;
-  </script>
+  <title>CANbiate</title>
 </head>
 <body>
-  <p>Redirigiendo a una canción aleatoria...</p>
+  <h1> Bienvenido a CANbiate Radio</h1>
+  <audio id="player" autoplay loop>
+    Tu navegador no soporta audio.
+  </audio>
+
+  <script>
+    const canciones = [
+      "BuenasNoches.mp3",
+      "StupidLove.mp3",
+      "DeLaVidaComoPelicula.mp3"
+    ];
+
+    let ultimaCancion = -1;
+
+    function elegirAleatoria() {
+      let nueva;
+      do {
+        nueva = Math.floor(Math.random() * canciones.length);
+      } while (nueva === ultimaCancion);
+
+      ultimaCancion = nueva;
+      return canciones[nueva];
+    }
+
+    const reproductor = document.getElementById("player");
+
+    function cargarYCambiarCancion() {
+      const aleatoria = elegirAleatoria();
+      reproductor.innerHTML = `<source src="${aleatoria}" type="audio/mpeg">`;
+      reproductor.load();
+      reproductor.play();
+    }
+
+    cargarYCambiarCancion();
+
+    reproductor.addEventListener("ended", () => {
+      cargarYCambiarCancion(); // al terminar, cambia a otra aleatoria
+    });
+  </script>
 </body>
 </html>
