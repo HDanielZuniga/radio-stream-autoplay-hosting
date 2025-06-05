@@ -2,47 +2,27 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>CANbiate</title>
+  <title>CANbiate Radio</title>
 </head>
 <body>
   <h1> Bienvenido a CANbiate Radio</h1>
-  <audio id="player" autoplay loop>
+  <audio id="player" autoplay>
+    <source src="CAN.mp3" type="audio/mpeg">
     Tu navegador no soporta audio.
   </audio>
 
   <script>
-    const canciones = [
-      "BuenasNoches.mp3",
-      "StupidLove.mp3",
-      "DeLaVidaComoPelicula.mp3"
-    ];
-
-    let ultimaCancion = -1;
-
-    function elegirAleatoria() {
-      let nueva;
-      do {
-        nueva = Math.floor(Math.random() * canciones.length);
-      } while (nueva === ultimaCancion);
-
-      ultimaCancion = nueva;
-      return canciones[nueva];
-    }
+    const DURACION_TOTAL = 3 * 3600 + 20 * 60 + 33; // 3h 20min 33s
+    const aleatorio = Math.floor(Math.random() * DURACION_TOTAL);
 
     const reproductor = document.getElementById("player");
-
-    function cargarYCambiarCancion() {
-      const aleatoria = elegirAleatoria();
-      reproductor.innerHTML = `<source src="${aleatoria}" type="audio/mpeg">`;
-      reproductor.load();
-      reproductor.play();
-    }
-
-    cargarYCambiarCancion();
-
-    reproductor.addEventListener("ended", () => {
-      cargarYCambiarCancion(); // al terminar, cambia a otra aleatoria
+    reproductor.addEventListener("loadedmetadata", () => {
+      if (!isNaN(reproductor.duration) && reproductor.duration > aleatorio) {
+        reproductor.currentTime = aleatorio;
+      }
     });
+
+    reproductor.play();
   </script>
 </body>
 </html>
